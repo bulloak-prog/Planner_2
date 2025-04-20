@@ -1,0 +1,1097 @@
+/* Variables de colores para facilitar cambios */
+:root {
+    --primary-color: #6c5ce7; /* Morado oscuro */
+    --primary-color-dark: #5941a9; /* Morado más oscuro para hover */
+    --secondary-color: #ffeaa7; /* Amarillo suave */
+    --background-color: #f4f7f6; /* Gris claro de fondo */
+    --header-color: #4834d4; /* Morado de la cabecera */
+    --header-color-dark: #341f97; /* Morado más oscuro para cabecera activa/hover */
+    --text-color: #333; /* Texto oscuro */
+    --card-color: #ffffff; /* Fondo de tarjetas y modales */
+    --border-color: #e0e0e0; /* Bordes suaves */
+    --hover-color: #f0f0f0; /* Fondo al pasar el ratón */
+    --active-progress-color: #00b894; /* Verde para progreso activo */
+    --inactive-progress-color: #b2bec3; /* Gris para progreso inactivo */
+    --color-prueba: #fab1a0; /* Salmón claro para prueba */
+    --color-tarea: #55efc4; /* Verde menta para tarea */
+    --color-otro: #81ecec; /* Azul claro para otro */
+    --color-pasado: #ff7675; /* Rojo para día pasado */
+    --color-error: #d63031; /* Rojo para errores o reset */
+}
+
+/* Estilos globales */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+/* Header */
+header {
+    background-color: var(--header-color);
+    color: #fff;
+    padding: 15px 25px; /* Ajuste de padding */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15); /* Sombra más pronunciada */
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    flex-wrap: wrap; /* Permite que los elementos se envuelvan en pantallas pequeñas */
+}
+
+header h1 {
+    margin: 0;
+    font-weight: 700; /* Más peso para el título */
+    font-size: 28px; /* Tamaño de fuente ligeramente mayor */
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap; /* Permite que la leyenda e iconos se envuelvan */
+    gap: 20px; /* Espacio entre leyenda e iconos */
+}
+
+#legend {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 15px; /* Espacio entre elementos de leyenda */
+    font-size: 13px; /* Tamaño de fuente ligeramente menor para leyenda */
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+}
+
+.legend-color {
+    width: 18px; /* Tamaño ligeramente mayor */
+    height: 18px; /* Tamaño ligeramente mayor */
+    margin-right: 6px; /* Espacio */
+    border-radius: 4px;
+    border: 1px solid rgba(0,0,0,0.1); /* Borde sutil */
+    position: relative;
+    box-shadow: inset 0 0 3px rgba(0,0,0,0.1); /* Sombra interna sutil */
+}
+
+.past-day-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Usar color var para la trama */
+    background-image: linear-gradient(135deg, transparent 45%, var(--color-pasado) 45%, var(--color-pasado) 55%, transparent 55%),
+                      linear-gradient(225deg, transparent 45%, var(--color-pasado) 45%, var(--color-pasado) 55%, transparent 55%);
+    background-size: 100% 100%;
+    opacity: 0.4; /* Opacidad ajustada */
+    border-radius: 4px;
+}
+
+
+.header-icons {
+    display: flex;
+    gap: 15px; /* Espacio entre iconos */
+}
+
+#hamburger-menu, #progress-icon {
+    cursor: pointer;
+    font-size: 22px; /* Tamaño de fuente */
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+#hamburger-menu:hover, #progress-icon:hover {
+    color: var(--secondary-color); /* Cambio de color al pasar el ratón */
+    transform: scale(1.1);
+}
+
+
+/* Estilos para los modales laterales */
+.side-modal {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 320px; /* Ancho ajustado */
+    height: 100%;
+    background-color: var(--card-color);
+    border-left: 1px solid var(--border-color);
+    z-index: 1001;
+    overflow-y: auto;
+    box-shadow: -4px 0 15px rgba(0,0,0,0.15); /* Sombra más pronunciada */
+    transform: translateX(100%); /* Inicia fuera de la pantalla */
+    transition: transform 0.4s ease-out; /* Transición suave */
+}
+
+.side-modal.active {
+    display: flex; /* Usar flexbox para layout interno */
+    flex-direction: column;
+    transform: translateX(0); /* Entra en la pantalla */
+}
+
+.side-modal-header {
+    background-color: var(--header-color);
+    color: #fff;
+    padding: 15px 20px; /* Ajuste de padding */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 500;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.side-modal-header h2 {
+     margin: 0;
+     font-size: 20px; /* Tamaño de fuente ajustado */
+}
+
+.side-modal-content {
+    padding: 20px;
+    flex-grow: 1; /* Permite que el contenido ocupe el espacio restante */
+}
+
+.close-button {
+    cursor: pointer;
+    font-size: 24px;
+    color: #fff; /* Color blanco en la cabecera del modal lateral */
+    transition: color 0.3s ease;
+    line-height: 1; /* Alineación vertical */
+}
+
+.close-button:hover {
+    color: var(--secondary-color); /* Cambio de color al pasar el ratón */
+}
+
+/* Estilos para el modal principal */
+.modal {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6); /* Fondo más oscuro */
+    overflow: auto;
+    z-index: 1002;
+    opacity: 0; /* Inicia transparente */
+    transition: opacity 0.3s ease;
+}
+
+.modal.active {
+    display: flex; /* Usar flexbox para centrar el contenido */
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+}
+
+.modal-content {
+    background-color: var(--card-color);
+    margin: auto; /* Centra el bloque */
+    padding: 30px;
+    width: 95%; /* Mayor ancho en móviles */
+    max-width: 550px; /* Ancho máximo ajustado */
+    position: relative;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2); /* Sombra más profunda */
+    animation: scaleUp 0.3s ease; /* Animación diferente */
+}
+
+@keyframes scaleUp {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    color: var(--header-color); /* Color del título del modal */
+    font-size: 22px;
+    margin-bottom: 20px; /* Espacio debajo del título */
+}
+
+#entry-text {
+    width: 100%;
+    box-sizing: border-box; /* Incluye padding y borde en el ancho */
+    border: 1px solid var(--border-color);
+    padding: 12px 15px; /* Ajuste de padding */
+    border-radius: 8px; /* Radio de borde */
+    resize: vertical;
+    font-size: 16px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    min-height: 150px; /* Altura mínima */
+    margin-bottom: 15px; /* Espacio debajo */
+}
+
+#entry-text:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2); /* Sombra de enfoque */
+    outline: none;
+}
+
+#save-button {
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    padding: 12px 25px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 25px;
+    transition: background-color 0.3s ease, box-shadow 0.2s ease;
+    margin-top: 10px;
+    font-weight: 500;
+}
+
+#save-button:hover {
+    background-color: var(--primary-color-dark);
+    box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3);
+}
+
+/* Botón de cierre dentro del modal principal (al lado del título) */
+.modal-content > .close-button {
+     position: absolute;
+     top: 20px; /* Ajuste de posición */
+     right: 20px; /* Ajuste de posición */
+     font-size: 28px; /* Tamaño mayor */
+     color: var(--text-color); /* Color del texto */
+     transition: color 0.3s ease;
+}
+
+.modal-content > .close-button:hover {
+     color: var(--color-error); /* Cambio de color al pasar el ratón */
+}
+
+
+/* Contenedor principal */
+#main-container {
+    display: flex;
+    padding: 20px 25px; /* Ajuste de padding */
+    gap: 25px; /* Espacio entre sidebar y contenido */
+}
+
+#left-sidebar {
+    width: 280px; /* Ancho ligeramente mayor */
+    padding: 20px;
+    background-color: var(--card-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.08); /* Sombra ajustada */
+    height: fit-content;
+    position: sticky;
+    top: 90px; /* Espacio desde el header */
+    flex-shrink: 0; /* Evita que se encoja */
+}
+
+#reminders h3 {
+    margin-top: 0;
+    color: var(--header-color);
+    font-size: 20px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+
+#main-content {
+    flex: 1;
+    min-width: 0; /* Permite que el contenido se encoja en pantallas pequeñas */
+}
+
+/* Navegación de Mes y Año */
+#month-year {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 25px; /* Espacio debajo */
+    background-color: var(--card-color);
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+}
+
+.nav-arrow { /* Clase generalizada */
+    cursor: pointer;
+    font-size: 28px; /* Tamaño mayor */
+    margin: 0 20px;
+    color: var(--primary-color);
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.nav-arrow:hover {
+    color: var(--primary-color-dark);
+    transform: scale(1.15); /* Efecto de escala más pronunciado */
+}
+
+#monthYearText {
+    font-size: 24px; /* Tamaño mayor */
+    font-weight: 700; /* Peso mayor */
+    color: var(--header-color); /* Color */
+}
+
+/* Calendario */
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 12px; /* Espacio ajustado */
+    max-width: 1200px; /* Ancho máximo ajustado */
+    margin: 0 auto;
+}
+
+.day-name {
+    font-weight: 700; /* Peso mayor */
+    text-align: center;
+    padding: 12px 0;
+    background-color: var(--primary-color);
+    color: #fff;
+    border-radius: 6px;
+    font-size: 15px; /* Tamaño ajustado */
+    text-transform: uppercase; /* Mayúsculas */
+    letter-spacing: 0.5px;
+}
+
+.day {
+    background-color: var(--card-color);
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    min-height: 100px; /* Altura mínima */
+    position: relative;
+    border: 1px solid var(--border-color);
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Alinea el contenido arriba */
+    align-items: center; /* Centra horizontalmente el contenido */
+    font-size: 18px; /* Tamaño del número del día */
+    font-weight: 500; /* Peso del número del día */
+    color: var(--text-color); /* Color del número del día */
+}
+
+.day:hover {
+    background-color: var(--hover-color);
+    transform: translateY(-5px); /* Traslación al pasar el ratón */
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1); /* Sombra más pronunciada */
+}
+
+.day.today {
+    border: 3px solid var(--primary-color); /* Borde más grueso */
+    box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3); /* Sombra para el día de hoy */
+}
+
+.day.past {
+     /* La trama se maneja con el overlay */
+}
+
+.day.past::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(240, 240, 240, 0.7); /* Overlay semitransparente gris */
+    pointer-events: none;
+    border-radius: 8px;
+    z-index: 1; /* Asegura que esté sobre el fondo de color */
+}
+
+/* Colores de fondo para días con entradas */
+.day.has-entry-no-keyword {
+    background-color: var(--color-otro);
+    border-color: darken(var(--color-otro), 10%); /* Oscurecer borde */
+}
+
+.day.has-tarea {
+    background-color: var(--color-tarea);
+    border-color: darken(var(--color-tarea), 10%); /* Oscurecer borde */
+}
+
+.day.has-prueba {
+    background-color: var(--color-prueba);
+    border-color: darken(var(--color-prueba), 10%); /* Oscurecer borde */
+}
+
+/* Estilo específico para el gradiente, si prefieres no usar darken */
+/* Nota: SCSS @function darken no está disponible en CSS puro, se usarán colores fijos o ajustarás manualmente */
+.day.has-entry-no-keyword { background-color: #81ecec; }
+.day.has-tarea { background-color: #55efc4; }
+.day.has-prueba { background-color: #fab1a0; }
+
+
+.day.has-multiple {
+    background: linear-gradient(135deg, var(--color-prueba) 50%, var(--color-tarea) 50%);
+    border-radius: 8px;
+}
+
+/* Contenido dentro del día (si decides mostrar un preview) */
+.day .entry-preview {
+     font-size: 12px;
+     color: #555;
+     margin-top: 5px;
+     overflow: hidden;
+     text-overflow: ellipsis;
+     display: -webkit-box;
+     -webkit-line-clamp: 3; /* Limitar a 3 líneas */
+     -webkit-box-orient: vertical;
+}
+
+
+/* Event Item (dentro del modal de eventos) */
+.event-item, .reminder-item {
+    background-color: var(--card-color);
+    border: 1px solid var(--border-color);
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08); /* Sombra ajustada */
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+    cursor: pointer; /* Indicar que es interactivo (aunque no haga nada por ahora) */
+}
+
+.event-item:hover, .reminder-item:hover {
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+}
+
+.event-date {
+    font-weight: 700; /* Peso mayor */
+    color: var(--primary-color); /* Color */
+    margin-bottom: 8px; /* Espacio */
+    font-size: 15px;
+}
+
+.event-content {
+    color: var(--text-color);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.reminder-item {
+    margin-bottom: 15px; /* Espacio debajo */
+    padding: 15px; /* Espacio interno */
+    border: 1px solid var(--border-color);
+    border-left: 5px solid var(--primary-color); /* Borde izquierdo de color */
+    background-color: var(--hover-color); /* Fondo ligeramente diferente */
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+.reminder-item h3 {
+    margin-top: 0;
+    color: var(--header-color); /* Color del título */
+    font-size: 16px; /* Tamaño de fuente ajustado */
+    border-bottom: none; /* Sin borde */
+    padding-bottom: 0; /* Sin padding */
+    margin-bottom: 5px; /* Espacio debajo */
+}
+
+.reminder-item p {
+    margin: 3px 0; /* Espacio ajustado */
+    color: var(--text-color);
+    font-size: 13px; /* Tamaño de fuente ajustado */
+}
+
+
+/* Modal de Progreso */
+#progress-list {
+    padding: 0; /* Eliminar padding del contenedor general */
+}
+
+#progress-icons {
+    display: flex;
+    justify-content: center; /* Centrar los iconos */
+    margin-bottom: 20px;
+    gap: 10px; /* Espacio entre iconos */
+    flex-wrap: wrap; /* Permite que los iconos se envuelvan */
+}
+
+.progress-icon {
+    width: 45px; /* Tamaño ligeramente mayor */
+    height: 45px; /* Tamaño ligeramente mayor */
+    background-color: var(--inactive-progress-color);
+    border: 2px solid var(--card-color); /* Borde blanco */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra sutil */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px; /* Tamaño de fuente */
+    font-weight: 700; /* Peso mayor */
+    color: #fff;
+    border-radius: 50%;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.progress-icon.active {
+    background-color: var(--primary-color); /* Color activo principal */
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(108, 92, 231, 0.4); /* Sombra para activo */
+}
+
+.progress-icon:hover:not(.active) {
+     background-color: var(--inactive-progress-color); /* Asegura que no cambie demasiado si no está activo */
+     transform: scale(1.05);
+     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+
+.progress-item {
+    display: none;
+    padding: 15px; /* Padding interno */
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin-bottom: 20px; /* Espacio debajo */
+    background-color: var(--card-color); /* Fondo */
+    box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+}
+
+.progress-item.active {
+    display: block;
+}
+
+.progress-item h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+    font-size: 18px;
+    border-bottom: 1px dashed var(--border-color); /* Borde punteado */
+    padding-bottom: 8px;
+}
+
+.progress-item label {
+     display: block;
+     margin-bottom: 5px;
+     font-size: 14px;
+     color: var(--text-color);
+     font-weight: 500;
+}
+
+.progress-item input[type="text"],
+.progress-item input[type="date"],
+.progress-item input[type="number"] {
+    width: 100%;
+    box-sizing: border-box; /* Incluye padding y borde en el ancho */
+    padding: 10px 12px; /* Ajuste de padding */
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 14px;
+    margin-bottom: 15px; /* Espacio debajo de inputs */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.progress-item input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+    outline: none;
+}
+
+.day-checkboxes {
+    margin-bottom: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Espacio entre checkboxes */
+    font-size: 14px;
+}
+
+.day-checkboxes label {
+    font-weight: normal; /* Peso normal */
+    margin-bottom: 0;
+    flex-shrink: 0; /* Evita que se encoja */
+}
+
+.day-checkboxes input[type="checkbox"] {
+    margin-right: 5px;
+    vertical-align: middle;
+    margin-bottom: 0; /* Eliminar margen inferior */
+}
+
+.progress-percentage, .manual-progress-count {
+     display: block; /* Asegura que estén en su propia línea */
+     margin-top: -10px; /* Ajuste de margen superior para pegarlo al input/checkboxes */
+     margin-bottom: 10px; /* Espacio debajo */
+     font-size: 13px; /* Tamaño ajustado */
+     color: #555;
+     text-align: left; /* Alineación a la izquierda */
+}
+
+
+.custom-progress-rectangle, .manual-progress-bar-container {
+    width: 100%;
+    height: 18px; /* Altura ajustada */
+    background-color: #e0e0e0; /* Fondo gris */
+    margin-top: 8px; /* Espacio ajustado */
+    margin-bottom: 8px; /* Espacio debajo */
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1); /* Sombra interna */
+}
+
+.custom-progress-bar {
+    height: 100%;
+    width: 0%;
+    background-color: var(--primary-color); /* Color principal */
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 10px;
+    transition: width 0.5s ease-in-out; /* Transición más suave */
+}
+
+.calculate-progress {
+    display: block; /* Bloque para ocupar todo el ancho */
+    width: 100%;
+    padding: 10px 15px;
+    background-color: var(--active-progress-color); /* Color verde */
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+    margin-top: 15px; /* Espacio arriba */
+    margin-bottom: 20px; /* Espacio abajo */
+    transition: background-color 0.3s ease, box-shadow 0.2s ease;
+    font-weight: 500;
+}
+
+.calculate-progress:hover {
+    background-color: #00a381; /* Oscurecer verde */
+    box-shadow: 0 2px 8px rgba(0, 184, 148, 0.3);
+}
+
+
+.progress-inputs {
+    margin-top: 15px;
+}
+
+.progress-buttons {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+.progress-buttons button {
+    flex: 1;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+    color: #fff;
+    transition: background-color 0.3s ease, box-shadow 0.2s ease;
+    font-weight: 500;
+}
+
+.add-manual-progress {
+    background-color: var(--active-progress-color);
+}
+
+.add-manual-progress:hover {
+    background-color: #00a381;
+    box-shadow: 0 2px 8px rgba(0, 184, 148, 0.3);
+}
+
+.reset-manual-progress {
+    background-color: var(--color-error); /* Rojo */
+}
+
+.reset-manual-progress:hover {
+    background-color: #c0392b; /* Oscurecer rojo */
+    box-shadow: 0 2px 8px rgba(214, 48, 49, 0.3);
+}
+
+.manual-progress-bar-container {
+    margin-top: 10px;
+    margin-bottom: 5px; /* Espacio ajustado */
+}
+
+.manual-progress-bar {
+     height: 100%;
+     width: 0%;
+     background-color: var(--active-progress-color); /* Color verde */
+     position: absolute;
+     top: 0;
+     left: 0;
+     border-radius: 10px;
+     transition: width 0.5s ease-in-out;
+}
+
+
+/* Botón de cierre adicional para modales */
+.modal-close-button {
+    display: block;
+    width: fit-content; /* Ajustar al contenido */
+    margin: 20px auto 0 auto; /* Centrar y espacio arriba */
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 25px; /* Borde redondeado como el botón de guardar */
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease, box-shadow 0.2s ease;
+    font-weight: 500;
+}
+
+.modal-close-button:hover {
+    background-color: var(--primary-color-dark);
+    box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3);
+}
+
+/* Ocultar el botón de cierre adicional en los modales laterales si es necesario, o usarlo solo en el modal principal */
+/* Si lo quieres en los laterales, asegura que no interfiere con el scroll */
+.side-modal .modal-close-bottom {
+    margin-top: auto; /* Empuja hacia abajo si el contenido es corto */
+    margin-bottom: 20px; /* Espacio en la parte inferior */
+    flex-shrink: 0; /* No permitir que se encoja */
+}
+
+
+/* Responsive */
+@media (max-width: 1024px) {
+    #main-container {
+        flex-direction: column;
+        padding: 15px; /* Ajuste de padding */
+        gap: 15px;
+    }
+
+    #left-sidebar {
+        width: 100%;
+        position: static;
+        top: auto;
+        order: 1; /* Coloca la barra lateral después del calendario en móvil */
+    }
+
+    #main-content {
+        order: 2; /* Coloca el calendario después de la barra lateral en móvil */
+    }
+
+    .calendar {
+        gap: 8px; /* Espacio más pequeño en el calendario */
+    }
+
+    .day-name {
+        padding: 8px 0; /* Ajuste de padding */
+        font-size: 14px;
+    }
+
+    .day {
+        min-height: 80px; /* Altura mínima ajustada */
+        padding: 10px; /* Padding ajustado */
+        font-size: 16px; /* Tamaño de fuente ajustado para el número del día */
+    }
+
+    header {
+        padding: 10px 15px; /* Ajuste de padding en header */
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px; /* Espacio entre título y derecha */
+    }
+
+    .header-right {
+         width: 100%; /* Ocupa todo el ancho */
+         justify-content: space-between; /* Distribuye leyenda e iconos */
+    }
+
+    #legend {
+         gap: 10px; /* Espacio más pequeño en leyenda */
+         font-size: 12px;
+    }
+
+    .legend-color {
+         width: 16px;
+         height: 16px;
+         margin-right: 4px;
+    }
+
+    .header-icons {
+         gap: 10px; /* Espacio más pequeño entre iconos */
+         order: 2; /* Coloca iconos después de leyenda */
+    }
+
+     #month-year {
+        padding: 10px 15px; /* Ajuste de padding */
+        margin-bottom: 15px; /* Espacio debajo */
+     }
+
+     .nav-arrow {
+         font-size: 24px; /* Tamaño ajustado */
+         margin: 0 15px; /* Margen ajustado */
+     }
+
+     #monthYearText {
+         font-size: 20px; /* Tamaño ajustado */
+     }
+
+     .modal-content {
+         padding: 20px; /* Ajuste de padding */
+     }
+
+     .modal-content h2 {
+         font-size: 20px;
+         margin-bottom: 15px;
+     }
+
+     #entry-text {
+         padding: 10px 12px;
+         min-height: 120px;
+         font-size: 14px;
+     }
+
+     #save-button {
+         padding: 10px 20px;
+         font-size: 15px;
+     }
+
+     .modal-content > .close-button {
+         top: 15px;
+         right: 15px;
+         font-size: 24px;
+     }
+
+     .side-modal {
+         width: 280px; /* Ancho ajustado para móviles */
+     }
+
+     .side-modal-header {
+         padding: 10px 15px; /* Ajuste de padding */
+     }
+
+     .side-modal-header h2 {
+         font-size: 18px;
+     }
+
+     .side-modal-content {
+         padding: 15px; /* Ajuste de padding */
+     }
+
+     .progress-icon {
+         width: 40px;
+         height: 40px;
+         font-size: 16px;
+     }
+
+     .progress-item h4 {
+         font-size: 16px;
+     }
+
+     .progress-item input[type="text"],
+     .progress-item input[type="date"],
+     .progress-item input[type="number"] {
+         padding: 8px 10px;
+         font-size: 13px;
+         margin-bottom: 10px;
+     }
+
+     .calculate-progress,
+     .progress-buttons button {
+         padding: 8px 12px;
+         font-size: 14px;
+     }
+
+     .manual-progress-count {
+         font-size: 12px;
+     }
+}
+
+@media (max-width: 768px) {
+    .calendar {
+        grid-template-columns: repeat(2, 1fr); /* Vuelve a 2 columnas en tablet */
+        gap: 10px;
+    }
+
+    .day-name {
+        display: none; /* Oculta nombres de días en esta vista */
+    }
+
+    .day {
+        min-height: 120px; /* Dar más espacio en 2 columnas */
+        padding: 15px;
+        font-size: 18px;
+    }
+
+    .day-checkboxes {
+        flex-direction: column; /* Apila los checkboxes verticalmente */
+        gap: 5px; /* Espacio ajustado */
+    }
+}
+
+
+@media (max-width: 480px) {
+     header {
+         padding: 10px;
+     }
+     header h1 {
+         font-size: 24px;
+     }
+     .header-right {
+         flex-direction: column; /* Apila leyenda e iconos */
+         align-items: flex-start;
+         gap: 10px;
+     }
+     #legend {
+         gap: 8px;
+         font-size: 11px;
+         width: 100%; /* Ocupa todo el ancho disponible */
+     }
+     .legend-item {
+         margin-right: 0; /* Elimina margen derecho */
+         flex-shrink: 0; /* No permitir que se encoja demasiado */
+     }
+     .header-icons {
+         width: 100%;
+         justify-content: flex-start; /* Alinea iconos a la izquierda */
+         gap: 10px;
+     }
+
+     #main-container {
+         padding: 10px;
+         gap: 10px;
+     }
+
+     #left-sidebar {
+         padding: 15px;
+     }
+     #reminders h3 {
+          font-size: 18px;
+     }
+     .reminder-item {
+         padding: 10px;
+     }
+     .reminder-item h3 {
+         font-size: 15px;
+     }
+     .reminder-item p {
+         font-size: 12px;
+     }
+
+
+    #month-year {
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+
+    .nav-arrow {
+        font-size: 22px;
+        margin: 0 10px;
+    }
+
+    #monthYearText {
+        font-size: 18px;
+    }
+
+    .calendar {
+        grid-template-columns: repeat(1, 1fr); /* Una columna en teléfonos muy pequeños */
+        gap: 8px;
+    }
+
+    .day {
+        min-height: 100px; /* Ajuste de altura */
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    .modal-content {
+        padding: 15px;
+    }
+
+    .modal-content h2 {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    #entry-text {
+        padding: 8px 10px;
+        min-height: 100px;
+        font-size: 14px;
+    }
+
+    #save-button, .modal-close-button {
+        padding: 8px 15px;
+        font-size: 14px;
+    }
+
+    .modal-content > .close-button {
+        top: 10px;
+        right: 10px;
+        font-size: 20px;
+    }
+
+     .side-modal {
+         width: 100%; /* Ocupa todo el ancho en pantallas muy pequeñas */
+         right: -100%; /* Inicia completamente fuera */
+         transform: translateX(0);
+     }
+
+     .side-modal.active {
+         right: 0; /* Se mueve a la derecha */
+         transform: translateX(0);
+     }
+
+     .side-modal-header {
+         padding: 10px 15px;
+     }
+
+     .side-modal-header h2 {
+         font-size: 18px;
+     }
+
+     .side-modal-content {
+         padding: 15px;
+     }
+
+     .progress-icon {
+         width: 35px;
+         height: 35px;
+         font-size: 14px;
+     }
+
+      .progress-item {
+         padding: 10px;
+      }
+
+     .progress-item h4 {
+         font-size: 15px;
+         margin-bottom: 8px;
+         padding-bottom: 5px;
+     }
+
+     .progress-item label {
+          font-size: 13px;
+     }
+
+      .progress-item input[type="text"],
+      .progress-item input[type="date"],
+      .progress-item input[type="number"] {
+          padding: 6px 8px;
+          font-size: 12px;
+          margin-bottom: 8px;
+      }
+
+     .day-checkboxes {
+         gap: 4px;
+         font-size: 13px;
+     }
+
+
+      .progress-percentage, .manual-progress-count {
+          font-size: 11px;
+      }
+
+     .custom-progress-rectangle, .manual-progress-bar-container {
+         height: 15px;
+     }
+
+     .calculate-progress,
+     .progress-buttons button {
+         padding: 6px 10px;
+         font-size: 13px;
+     }
+}
